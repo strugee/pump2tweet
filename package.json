@@ -1,6 +1,10 @@
 {
     "name": "pump2tweet",
     "version": "0.1.0-alpha.1",
+    "homepage": "https://github.com/e14n/pump2tweet#readme",
+    "author": "Evan Prodromou <evan@e14n.com>",
+    "description": "pump.io/Twitter bridge for finding friends and cross-posting content",
+    "preferGlobal": true,
     "dependencies": {
         "express": "2.5.x",
         "utml": "0.2.x",
@@ -14,5 +18,24 @@
         "connect-databank": "0.6.x",
         "node-uuid": "1.4.x",
         "bunyan": "0.16.x"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/e14n/pump2tweet.git"
+    },
+    "bugs": "https://github.com/e14n/pump2tweet/issues",
+    "keywords": [
+        "activitystreams",
+        "socialnetwork",
+        "social",
+        "pump",
+        "pumpio",
+        "twitter",
+        "bridge",
+        "app",
+        "server",
+        "federation",
+        "decentralization"
+    ],
+    "license": "Apache-2.0"
 }
