@@ -177,7 +177,7 @@ async.waterfall([
 
         var dbstore = new DatabankStore(db, log, 60000);
 
-        log.info("Configuring app");
+        log.debug("Configuring app");
 
         app.configure(function(){
             app.set('views', __dirname + '/views');
@@ -359,6 +359,6 @@ async.waterfall([
         if (err) {
             log.error(err);
         } else {
-            console.log("Express server listening on address %s port %d", config.address, config.port);
+            log.info("Express server listening on port "+config.port+" for address "+config.address);
         }
 });    
