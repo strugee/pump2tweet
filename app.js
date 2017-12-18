@@ -41,6 +41,7 @@ var fs = require("fs"),
     Edge = require("./models/edge"),
     Updater = require("./lib/updater"),
     yargs = require("yargs"),
+    ua = require("./lib/useragent"),
     defaults = {
         config: "/etc/pump2tweet.json",
         port: 4000,
@@ -301,7 +302,7 @@ async.waterfall([
             hostname: config.hostname,
             app: app,
             bank: db,
-            userAgent: "Pump2Tweet/0.1.0"
+            userAgent: ua
         });
 
         // Configure this global object

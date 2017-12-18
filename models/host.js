@@ -23,7 +23,8 @@ var _ = require("underscore"),
     OAuth = require("oauth").OAuth,
     DatabankObject = require("databank").DatabankObject,
     Pump2Tweet = require("./pump2tweet"),
-    RequestToken = require("./requesttoken");
+    RequestToken = require("./requesttoken"),
+    ua = require("../lib/useragent");
 
 var Host = DatabankObject.subClass("host");
 
@@ -212,7 +213,7 @@ Host.prototype.getOAuth = function() {
                      Pump2Tweet.url("/authorized/"+host.hostname),
                      "HMAC-SHA1",
                      null, // nonce size; use default
-                     {"User-Agent": "pump2tweet.com/0.1.0"});
+                     {"User-Agent": ua});
 };
 
 module.exports = Host;
