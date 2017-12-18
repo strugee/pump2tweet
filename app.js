@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // app.js
 //
 // main function for live updates
