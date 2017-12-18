@@ -310,16 +310,14 @@ async.waterfall([
 
         // Configure the service object
 
-        log.debug({name: config.name,
-                  description: config.description, 
-                  hostname: config.hostname},
-                 "Initializing Pump2Tweet object");
-
         Pump2Tweet.name        = config.name;
         Pump2Tweet.description = config.description;
         Pump2Tweet.hostname    = config.hostname;
 
         Pump2Tweet.protocol = useHTTPS ? "https" : "http";
+
+        log.debug({Pump2Tweet: _.omit(Pump2Tweet, "url", "asService")},
+                   "Initializing Pump2Tweet object");
 
         // Let Web stuff get to config
 
