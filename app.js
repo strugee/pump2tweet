@@ -40,15 +40,41 @@ var fs = require("fs"),
     Shadow = require("./models/shadow"),
     Edge = require("./models/edge"),
     Updater = require("./lib/updater"),
-    config,
+    yargs = require("yargs"),
     defaults = {
+        config: "/etc/pump2tweet.json",
         port: 4000,
         address: "localhost",
         hostname: "localhost",
         driver: "disk",
+        // TODO just crash instead of doing something stupid, poorly
+        sessionSecret: "insecure",
         name: "Pump2Tweet",
         description: "Find your StatusNet friends on pump.io."
     },
+    config = yargs
+             .usage("Usage: $0 [options]")
+             .alias({c: "config", h: "help", v: "version"})
+             .describe({config: "JSON configuration file path",
+                        port: "Port that the HTTP server will bind to",
+                        address: "Address that the HTTP server will bind to",
+                        hostname: "Hostname the server's running on",
+                        driver: "Databank driver",
+                        params: "Databank driver parameters",
+                        key: "Path to a private key file, if you're using HTTPS",
+                        cert: "Path to a certificate file, if you're using HTTPS",
+                        sessionSecret: "A session-generating secret, server-wide password",
+                        name: "Name of the Pump2Tweet service",
+                        description: "A nice human-readable description of the service",
+                        logfile: "Path to a Bunyan logfile",
+                        nologger: "Disable the logger, regardless of `logfile`"
+                       })
+             .defaults(defaults)
+             .env("PUMP2TWEET")
+             .config()
+             .help()
+             .version()
+             .argv,
     log,
     logParams = {
         name: "pump2tweet",
@@ -57,13 +83,6 @@ var fs = require("fs"),
             res: Logger.stdSerializers.res
         }
     };
-
-if (fs.existsSync("/etc/pump2tweet.json")) {
-    config = _.defaults(JSON.parse(fs.readFileSync("/etc/pump2tweet.json")),
-                        defaults);
-} else {
-    config = defaults;
-}
 
 if (config.logfile) {
     logParams.streams = [{path: config.logfile}];
@@ -112,6 +131,7 @@ async.waterfall([
         var app,
             bounce,
             client,
+            useHTTPS = Boolean(config.key),
             requestLogger = function(log) {
                 return function(req, res, next) {
                     var weblog = log.child({"req_id": uuid.v4(), component: "web"});
@@ -132,7 +152,7 @@ async.waterfall([
 
         DatabankObject.bank = db;
 
-        if (_.has(config, "key")) {
+        if (useHTTPS) {
 
             log.info("Using SSL");
 
@@ -163,7 +183,7 @@ async.waterfall([
             app.use(express.bodyParser());
             app.use(express.cookieParser());
             app.use(express.methodOverride());
-            app.use(express.session({secret: (_(config).has('sessionSecret')) ? config.sessionSecret : "insecure",
+            app.use(express.session({secret: config.sessionSecret,
                                      store: dbstore}));
             app.use(app.router);
             app.use(express.static(__dirname + '/public'));
@@ -296,7 +316,7 @@ async.waterfall([
         Pump2Tweet.description = config.description;
         Pump2Tweet.hostname    = config.hostname;
 
-        Pump2Tweet.protocol = (config.key) ? "https" : "http";
+        Pump2Tweet.protocol = useHTTPS ? "https" : "http";
 
         // Let Web stuff get to config
 

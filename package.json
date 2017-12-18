@@ -6,18 +6,18 @@
     "description": "pump.io/Twitter bridge for finding friends and cross-posting content",
     "preferGlobal": true,
     "dependencies": {
-        "express": "2.5.x",
-        "utml": "0.2.x",
-        "underscore": "1.4.x",
-        "webfinger": "0.1.x",
-        "databank": "0.18.x",
-        "underscore": "1.4.x",
-        "dialback-client": ">=0.1.1",
-        "oauth": "0.9.x",
         "async": "0.1.x",
+        "bunyan": "0.16.x",
         "connect-databank": "0.6.x",
+        "databank": "0.18.x",
+        "dialback-client": ">=0.1.1",
+        "express": "2.5.x",
         "node-uuid": "1.4.x",
-        "bunyan": "0.16.x"
+        "oauth": "0.9.x",
+        "underscore": "1.4.x",
+        "utml": "0.2.x",
+        "webfinger": "0.1.x",
+        "yargs": "^10.0.3"
     },
     "scripts": {
         "test": "nyc -r lcov -r text perjury test/*-test.js"
