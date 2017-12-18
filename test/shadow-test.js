@@ -35,6 +35,18 @@ vows.describe("Shadow model").addBatch({
 		},
 		"it has a schema": function(err, Shadow) {
 			assert.isObject(Shadow.schema);
+		},
+		"and we call its beforeCreate() handler": {
+			topic: function(Shadow) {
+				// XXX should we actually mock out the datetime?
+				Shadow.beforeCreate({}, this.callback);
+			},
+			"it works": function(err) {
+				assert.ifError(err);
+			},
+			"the object has a `created` timestamp": function(err, obj) {
+				assert.isNumber(obj.created);
+			}
 		}
 	}
 }).export(module);
