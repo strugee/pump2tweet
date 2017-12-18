@@ -126,7 +126,7 @@ var db = Databank.get(config.driver, config.params);
 
 async.waterfall([
     function(callback) {
-        log.info({driver: config.driver, params: config.params}, "Connecting to DB");
+        log.debug({driver: config.driver, params: config.params}, "Connecting to DB");
         db.connect({}, callback);
     },
     function(callback) {
@@ -168,7 +168,7 @@ async.waterfall([
 
         } else {
 
-            log.info("Not using SSL");
+            log.debug("Not using SSL");
 
             app = express.createServer();
         }
@@ -278,7 +278,7 @@ async.waterfall([
 
         // Routes
 
-        log.info("Initializing routes");
+        log.debug("Initializing routes");
 
         app.get('/', userAuth, userOptional, routes.index);
         app.get('/login', userAuth, noUser, routes.login);
@@ -295,7 +295,7 @@ async.waterfall([
 
         // Create a dialback client
 
-        log.info("Initializing dialback client");
+        log.debug("Initializing dialback client");
 
         client = new DialbackClient({
             hostname: config.hostname,
@@ -310,7 +310,7 @@ async.waterfall([
 
         // Configure the service object
 
-        log.info({name: config.name, 
+        log.debug({name: config.name,
                   description: config.description, 
                   hostname: config.hostname},
                  "Initializing Pump2Tweet object");
@@ -338,7 +338,7 @@ async.waterfall([
         // updater -- keeps the world up-to-date
         // XXX: move to master process when clustering
 
-        log.info("Initializing updater");
+        log.debug("Initializing updater");
 
         app.updater = new Updater({log: log});
 
@@ -346,14 +346,14 @@ async.waterfall([
 
         // Start the app
 
-        log.info({port: config.port, address: config.address}, "Starting app listener");
+        log.debug({port: config.port, address: config.address}, "Starting app listener");
 
         app.listen(config.port, config.address, callback);
 
         // Start the bouncer
 
         if (bounce) {
-            log.info({port: 80, address: config.address}, "Starting bounce listener");
+            log.debug({port: 80, address: config.address}, "Starting bounce listener");
             bounce.listen(80, config.address);
         }
 
