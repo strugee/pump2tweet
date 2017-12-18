@@ -44,6 +44,7 @@
     "devDependencies": {
         "coveralls": "^3.0.0",
         "nyc": "^11.3.0",
-        "perjury": "^1.1.0"
+        "perjury": "^1.1.0",
+        "zombie": "^5.0.7"
     }
 }
