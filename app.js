@@ -50,7 +50,8 @@ var fs = require("fs"),
         // TODO just crash instead of doing something stupid, poorly
         sessionSecret: "insecure",
         name: "Pump2Tweet",
-        description: "Find your StatusNet friends on pump.io."
+        description: "Find your StatusNet friends on pump.io.",
+        logLevel: "info"
     },
     config = yargs
              .usage("Usage: $0 [options]")
@@ -67,6 +68,7 @@ var fs = require("fs"),
                         name: "Name of the Pump2Tweet service",
                         description: "A nice human-readable description of the service",
                         logfile: "Path to a Bunyan logfile",
+                        logLevel: "Bunyan log level that decides what goes into the logfile",
                         nologger: "Disable the logger, regardless of `logfile`"
                        })
              .defaults(defaults)
@@ -78,6 +80,7 @@ var fs = require("fs"),
     log,
     logParams = {
         name: "pump2tweet",
+        level: config.logLevel,
         serializers: {
             req: Logger.stdSerializers.req,
             res: Logger.stdSerializers.res
