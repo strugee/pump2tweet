@@ -50,7 +50,7 @@ var fs = require("fs"),
         // TODO just crash instead of doing something stupid, poorly
         sessionSecret: "insecure",
         name: "Pump2Tweet",
-        description: "Find your StatusNet friends on pump.io.",
+        description: "Find your Twitter friends on pump.io.",
         logLevel: "info"
     },
     config = yargs
